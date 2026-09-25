@@ -16,13 +16,25 @@ export const Provenance = z.strictObject({
 });
 export type Provenance = z.infer<typeof Provenance>;
 
-export const CuratedAbility = z.strictObject({
-  slot: AbilitySlot,
-  maxRank: z.int().positive(),
-  formulas: z.array(AbilityFormula),
-  /** Values the extractor could not map; each is a TODO(verify) surfaced in the PR. */
-  unmapped: z.array(z.strictObject({ name: z.string(), reason: z.string() })),
-});
+export const CuratedAbility = z
+  .strictObject({
+    slot: AbilitySlot,
+    maxRank: z.int().positive(),
+    formulas: z.array(AbilityFormula),
+    /** Values the extractor could not map; each is a TODO(verify) surfaced in the PR. */
+    unmapped: z.array(z.strictObject({ name: z.string(), reason: z.string() })),
+  })
+  .superRefine((a, ctx) => {
+    for (const [i, f] of a.formulas.entries()) {
+      if (f.base.length !== a.maxRank) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["formulas", i, "base"],
+          message: `base has ${f.base.length} entries but maxRank is ${a.maxRank}`,
+        });
+      }
+    }
+  });
 export type CuratedAbility = z.infer<typeof CuratedAbility>;
 
 export const CuratedChampion = z.strictObject({

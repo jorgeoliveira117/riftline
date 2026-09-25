@@ -124,6 +124,13 @@ describe("CuratedChampion", () => {
     expect(CuratedChampion.safeParse(curated).success).toBe(true);
   });
 
+  it("requires formula ranks to match the ability's maxRank", () => {
+    const [ability] = curated.abilities;
+    expect(
+      CuratedChampion.safeParse({ ...curated, abilities: [{ ...ability, maxRank: 5 }] }).success,
+    ).toBe(false);
+  });
+
   it("rejects a timestamp in extractedAt (date only, for deterministic output)", () => {
     const withTime = {
       ...curated,

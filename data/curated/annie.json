@@ -1,0 +1,165 @@
+{
+  "abilities": [
+    {
+      "formulas": [
+        {
+          "base": [
+            80,
+            125,
+            170,
+            215,
+            260
+          ],
+          "damageType": "magic",
+          "id": "q.totalDamage",
+          "label": "Total Damage",
+          "scalings": [
+            {
+              "coeff": 0.8,
+              "stat": "abilityPower"
+            }
+          ]
+        }
+      ],
+      "maxRank": 5,
+      "slot": "Q",
+      "unmapped": []
+    },
+    {
+      "formulas": [
+        {
+          "base": [
+            70,
+            110,
+            150,
+            190,
+            230
+          ],
+          "damageType": "magic",
+          "id": "w.totalDamage",
+          "label": "Total Damage",
+          "scalings": [
+            {
+              "coeff": 0.8,
+              "stat": "abilityPower"
+            }
+          ]
+        }
+      ],
+      "maxRank": 5,
+      "slot": "W",
+      "unmapped": []
+    },
+    {
+      "formulas": [
+        {
+          "base": [
+            60,
+            95,
+            130,
+            165,
+            200
+          ],
+          "damageType": "shield",
+          "id": "e.shieldBlockTotal",
+          "label": "Shield Block Total",
+          "scalings": [
+            {
+              "coeff": 0.4,
+              "stat": "abilityPower"
+            }
+          ]
+        },
+        {
+          "base": [
+            25,
+            35,
+            45,
+            55,
+            65
+          ],
+          "damageType": "magic",
+          "id": "e.damageReturn",
+          "label": "Damage Return",
+          "scalings": [
+            {
+              "coeff": 0.4,
+              "stat": "abilityPower"
+            }
+          ]
+        }
+      ],
+      "maxRank": 5,
+      "slot": "E",
+      "unmapped": [
+        {
+          "name": "shieldduration",
+          "reason": "display value (cdragon-datavalue), not a formula"
+        },
+        {
+          "name": "movespeedcalc",
+          "reason": "no damage/heal/shield tag around it in the tooltip"
+        },
+        {
+          "name": "movementspeedduration",
+          "reason": "display value (cdragon-datavalue), not a formula"
+        }
+      ]
+    },
+    {
+      "formulas": [
+        {
+          "base": [
+            150,
+            275,
+            400
+          ],
+          "damageType": "magic",
+          "id": "r.initialBurstDamage",
+          "label": "Initial Burst Damage",
+          "scalings": [
+            {
+              "coeff": 0.75,
+              "stat": "abilityPower"
+            }
+          ]
+        },
+        {
+          "base": [
+            8,
+            12,
+            16
+          ],
+          "damageType": "magic",
+          "id": "r.tibbersAuraDamage",
+          "label": "Tibbers Aura Damage",
+          "scalings": [
+            {
+              "coeff": 0.04,
+              "stat": "abilityPower"
+            }
+          ]
+        }
+      ],
+      "maxRank": 3,
+      "slot": "R",
+      "unmapped": [
+        {
+          "name": "rpercentpenbuff*100",
+          "reason": "display value (cdragon-datavalue), not a formula"
+        },
+        {
+          "name": "tibberslifetime",
+          "reason": "display value (cdragon-datavalue), not a formula"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "cdragonPath": "game/data/characters/annie/annie.bin.json",
+    "extractedAt": "2026-09-25",
+    "sourcePatch": "16.19.1",
+    "verifiedAtPatch": null
+  },
+  "slug": "annie"
+}
