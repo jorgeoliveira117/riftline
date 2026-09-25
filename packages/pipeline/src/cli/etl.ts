@@ -1,5 +1,5 @@
 import { readdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { placeholderAuditReport } from "../analysis/audit-report";
 import { createFetcher } from "../fetch/fetcher";
@@ -79,7 +79,9 @@ async function main() {
         await getChampionFull(fetcher, version),
         await probeBins(version),
       );
-      if (values.out) await writeFile(values.out, report);
+      // pnpm runs scripts from the package dir; resolve --out against where the user ran pnpm.
+      if (values.out)
+        await writeFile(resolve(process.env.INIT_CWD ?? process.cwd(), values.out), report);
       else process.stdout.write(report);
       return;
     }
