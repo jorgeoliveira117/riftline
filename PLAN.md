@@ -2,7 +2,7 @@
 
 > Companion docs: [ARCHITECTURE.md](./ARCHITECTURE.md) · [ADRs](./docs/adr) · [CLAUDE.md](./CLAUDE.md)
 >
-> **Status:** Phase 0 · **Last updated:** 2026-07-17 · **Phases:** 0–6
+> **Status:** Phase 0 · **Last updated:** 2026-09-25 · **Phases:** 0–6
 
 ## 1. What we're building
 
@@ -48,13 +48,13 @@ Dates are targets, not commitments — the phase-gate rules above are the real c
 
 Goal: answer the questions everything downstream depends on, before committing to them.
 
-- [ ] Scaffold the monorepo (layout in ARCHITECTURE §2), CI skeleton, commit this docs set.
-- [ ] Fetch scripts: pull ddragon `championFull.json` + `item.json` (latest) and CDragon bins for the probe trio — **Annie** (oldest/simplest), **Kha'Zix** (launch set, conditional mechanic), **Briar** (modern-era data shape). Optionally peek at Hwei as the known worst case.
-- [ ] For each probe: record which display values ddragon actually resolves vs. leaves as placeholders → `docs/notes/phase0-findings.md`.
-- [ ] Schema v0 in `packages/schema` (Champion, Ability, AbilityFormula, Item).
-- [ ] Prototype bin extraction for one full kit end-to-end.
-- [ ] Timeboxed 2h chart spike: ECharts (default) vs `@elastic/charts` → record outcome in ARCHITECTURE §13.
-- [ ] Review ADR-001 and ADR-002 against findings; amend and flip to Accepted.
+- [x] Scaffold the monorepo (layout in ARCHITECTURE §2), CI skeleton, commit this docs set.
+- [x] Fetch scripts: pull ddragon `championFull.json` + `item.json` (latest) and CDragon bins for the probe trio — **Annie** (oldest/simplest), **Kha'Zix** (launch set, conditional mechanic), **Briar** (modern-era data shape). Optionally peek at Hwei as the known worst case.
+- [x] For each probe: record which display values ddragon actually resolves vs. leaves as placeholders → `docs/notes/phase0-findings.md`.
+- [x] Schema v0 in `packages/schema` (Champion, Ability, AbilityFormula, Item).
+- [x] Prototype bin extraction for one full kit end-to-end.
+- [x] Timeboxed 2h chart spike: ECharts (default) vs `@elastic/charts` → record outcome in ARCHITECTURE §13. *(ECharts recommended; maintainer to confirm.)*
+- [ ] Review ADR-001 and ADR-002 against findings; amend and flip to Accepted. *(Amendments drafted from [phase0-findings](./docs/notes/phase0-findings.md); acceptance is the maintainer's call.)*
 
 **Exit criteria:** ADRs accepted · schema v0 merged · findings doc written · chart library chosen · confident go/no-go on the Phase 4 approach.
 
@@ -64,6 +64,8 @@ Goal: answer the questions everything downstream depends on, before committing t
 - [ ] Champion index: search + class filter (client-side; ~170 entries).
 - [ ] Champion page: splash header, base-stats table **with a level slider** (first real use of `statAtLevel` from the engine), abilities with icons and sanitized descriptions — best-effort variable substitution, and an explicit "value not in public data" state where ddragon leaves placeholders. Never a fake number.
 - [ ] Seed `packages/ui`: design tokens (CSS custom properties) + the first primitives the wiki needs (roughly six — layout shell, StatTable, badge, tooltip, search input, champion card), each with a basic story; Storybook running locally with the a11y addon. **Keep this thin** — hardening is Phase 5 (ADR-004).
+- [ ] Resolve ddragon `attackdamageperlevel = 0` (all champions since 16.5.1; bins disagree) before the level slider ships: quirk entry, bin-sourced growth, or a visible gap (phase0-findings §4).
+- [ ] Ingest invariant: cross-check ddragon base stats against the bin `CharacterRecord` (ADR-001 amendment).
 - [ ] Footer with the Riot disclaimer; basic SEO/meta.
 - [ ] Deploy to Vercel; Sentry wired.
 - [ ] Full CI: typecheck, lint, unit, e2e smoke, Lighthouse budgets, bundle-size limit (targets in ARCHITECTURE §9).
@@ -97,6 +99,7 @@ Goal: answer the questions everything downstream depends on, before committing t
 - [ ] Engine complete: item aggregation, level/skill ranks, target resistances, mitigation and penetration order — **formulas verified against the League of Legends Wiki at implementation time, encoded as goldens** (see CLAUDE.md ground rule 3).
 - [ ] Curated item pool (~30–50 damage-relevant items) with an overlay for stats absent from ddragon's stats block (lethality, % pen, etc. live only in description text).
 - [ ] Bin-extractor hardened on the launch set; curated data + provenance for all 13 champions.
+- [ ] Extractor gaps from Phase 0: verified stat-enum table (`mStat`/`mStatFormula`), cross-spell references, `EffectValueCalculationPart`, level-curve parts, and evaluators for conditional/modified/nested calculations (ADR-002 amendment).
 - [ ] Golden suite in two classes (ADR-002): **engine goldens** (synthetic; always gate CI) + **data pins** per champion (≥2 scenarios per damage formula), maintainer-verified via `verifiedAtPatch`.
 - [ ] Ingest invariants + `INGEST_MODE` switch: structural checks and plausibility bands, per-champion fail-closed to last-good data, freshness badges in the playground UI.
 - [ ] Playground UI: keyboard-first controls (Slider, Stepper, Combobox — built in `packages/ui` on React Aria hooks, each with stories); champion/level/ranks/items/target panels; per-ability and combo totals.

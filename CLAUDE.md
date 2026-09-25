@@ -27,6 +27,7 @@ pnpm dev            # run apps/web locally
 pnpm build          # production build
 pnpm typecheck      # tsc --noEmit across the workspace
 pnpm lint           # lint + format check
+pnpm format         # apply Prettier (markdown is excluded; hand-written docs keep their formatting)
 pnpm test           # unit tests (engine, pipeline)
 pnpm test:golden    # verified golden fixtures only
 pnpm test:e2e       # Playwright (includes axe checks)
@@ -35,10 +36,14 @@ pnpm build:storybook # static Storybook for deploy
 pnpm test:stories   # interaction tests via Storybook test-runner
 
 pnpm etl versions                    # ddragon versions not yet ingested
+pnpm etl probe --version latest      # Phase 0: cache championFull, item.json and probe bins
+pnpm etl audit --out <file>          # Phase 0: tooltip placeholder audit (markdown)
 pnpm etl ingest --version 16.14.1    # or --latest
 pnpm etl derive                      # recompute series + patch diffs
 pnpm extract-bins --champion khazix --version 16.14
 ```
+
+Implemented so far: `typecheck`, `lint`, `format`, `test`, `etl versions|probe|audit`, `extract-bins` (prototype). Raw upstream responses are cached under `.cache/upstream/` (gitignored).
 
 ## Repo map
 

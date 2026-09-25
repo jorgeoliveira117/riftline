@@ -2,7 +2,7 @@
 
 > Companion docs: [PLAN.md](./PLAN.md) · [ADRs](./docs/adr) · [CLAUDE.md](./CLAUDE.md)
 >
-> **Status:** living document · **Last updated:** 2026-07-17
+> **Status:** living document · **Last updated:** 2026-09-25
 
 ## 1. System overview
 
@@ -59,7 +59,7 @@ Endpoint cheat sheet:
 | Splash (versionless) | `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{Id}_{n}.jpg` |
 | Spell / item / passive icons | `/cdn/{v}/img/spell/{file}` · `/cdn/{v}/img/item/{id}.png` · `/cdn/{v}/img/passive/{file}` |
 | CDragon champion bins | `https://raw.communitydragon.org/{major.minor}/game/data/characters/{champ}/{champ}.bin.json` (`latest` alias for current) |
-| CDragon UI strings | `.../game/data/menu/fontconfig_en_us.txt.json` |
+| CDragon UI strings | `.../game/en_us/data/menu/en_us/lol.stringtable.json` (moved from `game/data/menu/fontconfig_en_us.txt.json`; see phase0-findings) |
 | Patch release dates | CommunityDragon patch metadata on GitHub (ddragon ships none) |
 
 Known upstream issues we design around: ability tooltips contain unresolved `{{ placeholder }}` variables with no values anywhere in the champion file; effect arrays and item stats blocks are incomplete or wrong, especially for modern champions; ddragon can publish up to ~2 days after (or before) a patch goes live; ddragon version numbers have diverged from Riot's marketing patch names since 2025 — `versions.json` is our only identifier.
@@ -77,7 +77,8 @@ interface ChampionSnapshot {
   key: number;               // Riot numeric key
   name: string;
   title: string;
-  classes: RiotSubclass[];   // ddragon tags + curated overrides
+  tags: ChampionTag[];       // ddragon ships Riot's six classes
+  subclasses?: RiotSubclass[]; // curated overlay (PLAN §5)
   stats: BaseStats;          // base + perLevel growth, straight from ddragon (T1)
   abilities: Ability[];      // P, Q, W, E, R
   trust: "ddragon" | "curated";
@@ -189,7 +190,7 @@ No secrets in the repo — tokens live only in GitHub/Vercel secret stores. ddra
 
 | Question | Default | Decide by |
 |---|---|---|
-| Chart library | ECharts (tree-shaken via `echarts/core`); spike vs `@elastic/charts` | Phase 0 |
+| Chart library | ECharts (tree-shaken via `echarts/core`). Spike done: ECharts recommended, 182 kB vs 414 kB gzipped, and `@elastic/charts` peers React ^18 only ([phase0-chart-spike](./docs/notes/phase0-chart-spike.md)). Awaiting maintainer confirmation | Phase 0 |
 | Visual regression | Chromatic free tier (default) vs self-hosted Playwright screenshots in CI | Phase 5 |
 | Vitals store | Upstash Redis vs Turso (both free-tier viable) | Phase 6 |
 | Custom domain | Vercel subdomain until v1.0 | Phase 6 |

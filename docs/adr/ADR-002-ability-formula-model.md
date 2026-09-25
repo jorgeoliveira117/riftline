@@ -1,7 +1,7 @@
 # ADR-002: Ability formula representation and verification model
 
 - **Status:** Proposed — accept (or amend) at the end of Phase 0
-- **Date:** 2026-07-16 · **Amended:** 2026-07-17 (golden classes, operating modes)
+- **Date:** 2026-07-16 · **Amended:** 2026-07-17 (golden classes, operating modes) · 2026-09-25 (Phase 0 findings; proposed, pending review)
 - **Owner:** Jorge Oliveira
 
 ## Context
@@ -36,3 +36,15 @@ A hybrid, weighted heavily toward data:
 - The same schema + engine are consumable by Riftforge (PLAN §7): its behavior archetypes bind to the same formula data, so the launch-13 kits double as the game's ability pool.
 - Steady state in maintenance mode: champions untouched by a patch cost nothing; tuned values flow through recipes automatically and wear a freshness badge; reworks and format shifts trip invariants **loudly** and cost minutes to fix — silent rot is designed out.
 - Deferred champion archetypes (infinite stackers, transformers, ammo/pet systems, kit-borrowers) are acknowledged schema stressors — revisit after v1.0 rather than pre-designing for them.
+
+## Phase 0 amendments (proposed)
+
+Evidence: [phase0-findings](../notes/phase0-findings.md) §2–3. Prototype: `pnpm extract-bins`.
+
+- **The declarative core holds.** It mapped Annie's full ranked kit (6/6 tagged values) and 11 of Hwei's values. Kha'Zix and Briar are blocked by the known items below, not by the model.
+- **Evaluator-bound part types, enumerated:** `ByCharLevelBreakpoints`/`Interpolation`/`Formula` (level curves), `ProductOfSubParts`/`SumOfSubParts` (nesting), `GameCalculationConditional` (e.g. Kha'Zix isolation) and `GameCalculationModified` (multipliers). `EffectValueCalculationPart` should become declarative once the legacy effect index is resolved. Level curves recur often enough (passives, move-speed buffs) that a declarative `byLevel` shape may be worth adding to the core before writing evaluators for them.
+- **Extraction follows the game's own structure.** `CharacterRecord.spells` gives the slot roots and `AbilityObject.mChildSpells` the sub-spells; legacy objects with similar names are ignored. Cross-spell references (`spell.<script>:<var>`, 87 site-wide) are part of the model.
+- **The stat-enum mapping is curated data with provenance.** Scalings name stats as numeric `mStat`/`mStatFormula` enums. Each mapped pair needs a cited source, just like quirks; unknown pairs stay unmapped and are never guessed.
+- **Provenance is deterministic.** `extractedAt` is date-only and is preserved when the extracted values are unchanged, so re-runs stay byte-identical (CLAUDE.md ground rule 5). Tools never write `verifiedAtPatch`.
+- **Data-pin format is designed in Phase 4** alongside the engine; Phase 0 did not scaffold pins.
+

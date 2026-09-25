@@ -1,7 +1,7 @@
 # ADR-001: Data sourcing and trust tiers
 
 - **Status:** Proposed — accept (or amend) at the end of Phase 0
-- **Date:** 2026-07-16 · **Amended:** 2026-07-17 (freshness display, gating aligned with ADR-002)
+- **Date:** 2026-07-16 · **Amended:** 2026-07-17 (freshness display, gating aligned with ADR-002) · 2026-09-25 (Phase 0 findings; proposed, pending review)
 - **Owner:** Jorge Oliveira
 
 ## Context
@@ -36,3 +36,14 @@ Scope consequences of the tiers: site-wide features (explorer, base-stat history
 - Coverage grows via a curation ladder (13 → 40 champions) rather than all at once; the UI wears trust badges rather than implying uniform accuracy.
 - We own an extractor and a quirks registry — ongoing maintenance, but also the project's core engineering substance.
 - The site can never display an authoritative-looking wrong number without either failing a golden or carrying an explicit unverified state.
+
+## Phase 0 amendments (proposed)
+
+Evidence: [phase0-findings](../notes/phase0-findings.md) (ddragon 16.19.1, CDragon 16.19).
+
+- **Premise confirmed.** ddragon resolves 33 of 2,672 value-bearing tooltip placeholders (1.2%), and `vars`/`datavalues` are empty on every spell. CDragon bins resolve 100% by name for all four probes.
+- **T1 base stats get a cross-check.** Since ddragon 16.5.1, `attackdamageperlevel` is 0 for every champion, while the game bins still carry non-zero growth. The ingest compares ddragon base stats with the bin's `CharacterRecord`. A disagreement becomes either a quirk entry naming the version and field, or a per-champion invariant failure. It is never shown silently as T1. Which source wins for AD growth is a maintainer decision (findings §4).
+- **Index conventions are part of the contract.** `DataValues`, `mEffectAmount` and `cooldownTime` are rank-indexed with an unused rank-0 slot; `mana` is 0-indexed. The extractor encodes this, and data pins confirm it.
+- **Literal numbers in descriptions.** Some Riot tooltips contain numbers as plain text, not variables (27 of 692 spells). They render as published (T1) and cannot carry per-value trust badges.
+- **Mode overrides are out of scope.** `DataValuesModeOverride` (Arena "cherry", ARAM, …) is ignored; only Summoner's Rift values are extracted (PLAN §6).
+
