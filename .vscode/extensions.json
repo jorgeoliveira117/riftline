@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "anthropic.claude-code",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    "ms-playwright.playwright",
+    "vitest.explorer",
+    "vunguyentuan.vscode-css-variables",
+    "github.vscode-github-actions",
+    "redhat.vscode-yaml",
+    "bierner.markdown-mermaid",
+    "eamodio.gitlens",
+    "vivaxy.vscode-conventional-commits"
+  ]
+}

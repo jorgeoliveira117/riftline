@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+.next/
+out/
+storybook-static/
+*.tsbuildinfo
+.turbo/
+
+# Test output
+coverage/
+playwright-report/
+test-results/
+
+# Raw upstream fetch cache (ddragon / CommunityDragon). Normalized snapshots live in data/.
+.cache/
+
+# Environment
+.env*
+!.env.example
+
+# OS / editor
+.DS_Store
+
+# Local-only notes and settings (never committed)
+CLAUDE.local.md
+notes.local/
+.claude/settings.local.json
