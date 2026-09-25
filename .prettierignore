@@ -1,0 +1,8 @@
+pnpm-lock.yaml
+.cache/
+data/
+coverage/
+dist/
+.next/
+# Hand-written docs keep their author formatting
+*.md
